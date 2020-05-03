@@ -3,9 +3,22 @@ from bilby.gw.source import lal_binary_black_hole
 from lal import CreateDict
 
 
-def non_gr_d_alpha_1(
-        frequency_array, mass_1, mass_2, luminosity_distance, a_1, tilt_1,
-        phi_12, a_2, tilt_2, phi_jl, theta_jn, phase, d_alpha_1, **kwargs):
+def non_gr_d_alpha_2(
+    frequency_array,
+    mass_1,
+    mass_2,
+    luminosity_distance,
+    a_1,
+    tilt_1,
+    phi_12,
+    a_2,
+    tilt_2,
+    phi_jl,
+    theta_jn,
+    phase,
+    d_alpha_2,
+    **kwargs
+):
     """ Generate a cbc waveform model with delta alpha 1 using lalsimulation
 
     Parameters
@@ -34,7 +47,7 @@ def non_gr_d_alpha_1(
         Orbital inclination
     phase: float
         The phase at coalescence
-    d_alpha_1: float
+    d_alpha_2: float
         The non-GR parameter
     kwargs: dict
         Optional keyword arguments
@@ -44,8 +57,20 @@ def non_gr_d_alpha_1(
     dict: A dictionary with the plus and cross polarisation strain modes
     """
     wf_dict = kwargs.get("lal_waveform_dictionary", CreateDict())
-    lalsimulation.SimInspiralWaveformParamsInsertNonGRDAlpha1(wf_dict, float(d_alpha_1))
+    lalsimulation.SimInspiralWaveformParamsInsertNonGRDAlpha2(wf_dict, float(d_alpha_2))
     kwargs["lal_waveform_dictionary"] = wf_dict
     return lal_binary_black_hole(
-        frequency_array, mass_1, mass_2, luminosity_distance, a_1, tilt_1,
-        phi_12, a_2, tilt_2, phi_jl, theta_jn, phase, **kwargs)
+        frequency_array,
+        mass_1,
+        mass_2,
+        luminosity_distance,
+        a_1,
+        tilt_1,
+        phi_12,
+        a_2,
+        tilt_2,
+        phi_jl,
+        theta_jn,
+        phase,
+        **kwargs
+    )
