@@ -1,0 +1,46 @@
+# This script is an edited version of the example found at
+# https://git.ligo.org/lscsoft/example-ci-project/blob/python/.gitlab-ci.yml
+# Each 0th-indentation level is a job that will be run within GitLab CI
+# The only exception are a short list of reserved keywords
+#
+# https://docs.gitlab.com/ee/ci/yaml/#gitlab-ci-yml
+
+# stages is a reserved keyword that defines job dependencies and
+# parallelization. each stage runs in parallel but must complete
+# before the next stage begins
+
+stages:
+  - test
+  - deploy
+
+.test-python: &test-python
+  stage: test
+  image: python
+  script:
+    - python -m pip install .
+    - python -c "import bilby_tgr"
+
+# test basic setup on python3
+basic-3.7:
+  <<: *test-python
+  image: python:3.7
+
+# test example on python 3.7
+python-3.7:
+  stage: test
+  image: bilbydev/v2-dockerfile-test-suite-python37
+  script:
+    - python -m pip install .
+
+    # Run pyflakes
+    - flake8 .
+
+    # Run tests and collect coverage data
+    - pytest --cov=bilby_tgr --durations 10
+    - coverage html
+    - coverage-badge -o coverage_badge.svg -f
+
+  artifacts:
+    paths:
+      - htmlcov/
+      - coverage_badge.svg
