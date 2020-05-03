@@ -19,7 +19,7 @@ def non_gr_d_alpha_2(
     d_alpha_2,
     **kwargs
 ):
-    """ Generate a cbc waveform model with delta alpha 1 using lalsimulation
+    """ Generate a cbc waveform model with delta alpha 2 using lalsimulation
 
     Parameters
     ----------
