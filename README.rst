@@ -82,6 +82,29 @@ function. You can replace this with any new function you care to define in the
    n-parallel = 4
 
    transfer-files = False
+
+The other thing you need is a prior file (4s.prior in the above ini).
+This will be a standard CBC prior, plus any new parameters.
+
+.. code-block:: python
+
+    chirp_mass = Uniform(name="chirp_mass", minimum=12.299703, maximum=45, unit='$M_{\\odot}$')
+    mass_ratio = Uniform(name="mass_ratio", minimum=0.125, maximum=1)
+    mass_1 = Constraint(name="mass_1", minimum=1.001398, maximum=1000)
+    mass_2 = Constraint(name="mass_2", minimum=1.001398, maximum=1000)
+    a_1 = Uniform(name="a_1", minimum=0, maximum=0.88)
+    a_2 = Uniform(name="a_2", minimum=0, maximum=0.88)
+    tilt_1 = Sine(name="tilt_1")
+    tilt_2 = Sine(name="tilt_2")
+    phi_12 = Uniform(name="phi_12", minimum=0, maximum=2 * np.pi, boundary="periodic")
+    phi_jl = Uniform(name="phi_jl", minimum=0, maximum=2 * np.pi, boundary="periodic")
+    luminosity_distance = bilby.gw.prior.UniformSourceFrame(name="luminosity_distance", minimum=1e2, maximum=5e3, unit="Mpc")
+    dec = Cosine(name="dec")
+    ra = Uniform(name="ra", minimum=0, maximum=2 * np.pi, boundary="periodic")
+    theta_jn = Sine(name="theta_jn")
+    psi = Uniform(name="psi", minimum=0, maximum=np.pi, boundary="periodic")
+    phase = Uniform(name="phase", minimum=0, maximum=2 * np.pi, boundary="periodic")
+    d_alpha_2 = Uniform(minimum=-10, maximum=10, latex_label="$\\delta \\alpha_2$")
    
    
 
