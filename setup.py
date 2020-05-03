@@ -82,7 +82,7 @@ setup(
     package_dir={"bilby_tgr": "src"},
     package_data={"bilby_tgr": [version_file]},
     python_requires=">=3.5",
-    install_requires=["bilby", "lalsuite", "numpy>=1.9",],
+    install_requires=["bilby", "lalsuite", "numpy>=1.9"],
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
