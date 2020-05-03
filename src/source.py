@@ -3,7 +3,7 @@ from bilby.gw.source import lal_binary_black_hole
 from lal import CreateDict
 
 
-def non_gr_d_alpha_2(
+def non_gr_d_alpha_2_binary_black_hole(
     frequency_array,
     mass_1,
     mass_2,
