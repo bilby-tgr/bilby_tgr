@@ -1,22 +1,15 @@
 import lalsimulation
-from bilby.gw.source import lal_binary_black_hole
+from bilby.gw.source import _base_lal_cbc_fd_waveform
 from lal import CreateDict
 
 
-def non_gr_d_alpha_2_binary_black_hole(
-    frequency_array,
-    mass_1,
-    mass_2,
-    luminosity_distance,
-    a_1,
-    tilt_1,
-    phi_12,
-    a_2,
-    tilt_2,
-    phi_jl,
-    theta_jn,
-    phase,
-    d_alpha_2,
+def TIGER_binary_black_hole(
+    frequency_array, mass_1, mass_2, luminosity_distance,
+    a_1, tilt_1, phi_12, a_2, tilt_2, phi_jl,
+    theta_jn, phase,
+    dchi_0, dchi_1, dchi_2, dchi_3, dchi_4, dchi_5l, dchi_6, dchi_6l, dchi_7,
+    dbeta_2, dbeta_3,
+    dalpha_2, dalpha_3, dalpha_4,
     **kwargs
 ):
     """ Generate a cbc waveform model with delta alpha 2 using lalsimulation
@@ -47,7 +40,33 @@ def non_gr_d_alpha_2_binary_black_hole(
         Orbital inclination
     phase: float
         The phase at coalescence
-    d_alpha_2: float
+    dchi_0: float
+        The non-GR parameter
+    dchi_1: float
+        The non-GR parameter
+    dchi_2: float
+        The non-GR parameter
+    dchi_3: float
+        The non-GR parameter
+    dchi_4: float
+        The non-GR parameter
+    dchi_5l: float
+        The non-GR parameter
+    dchi_6: float
+        The non-GR parameter
+    dchi_6l: float
+        The non-GR parameter
+    dchi_7: float
+        The non-GR parameter
+    dbeta_2: float
+        The non-GR parameter
+    dbeta_3: float
+        The non-GR parameter
+    dalpha_2: float
+        The non-GR parameter
+    dalpha_3: float
+        The non-GR parameter
+    dalpha_4: float
         The non-GR parameter
     kwargs: dict
         Optional keyword arguments
@@ -56,21 +75,58 @@ def non_gr_d_alpha_2_binary_black_hole(
     -------
     dict: A dictionary with the plus and cross polarisation strain modes
     """
-    wf_dict = kwargs.get("lal_waveform_dictionary", CreateDict())
-    lalsimulation.SimInspiralWaveformParamsInsertNonGRDAlpha2(wf_dict, float(d_alpha_2))
-    kwargs["lal_waveform_dictionary"] = wf_dict
-    return lal_binary_black_hole(
+    waveform_kwargs = dict(
+        waveform_approximant='IMRPhenomPv2', reference_frequency=50.0,
+        minimum_frequency=20.0, maximum_frequency=frequency_array[-1],
+        catch_waveform_errors=False, pn_spin_order=-1, pn_tidal_order=-1,
+        pn_phase_order=-1, pn_amplitude_order=0)
+    waveform_kwargs.update(kwargs)
+    wf_dict = waveform_kwargs.get("lal_waveform_dictionary", CreateDict())
+    # Relative shifts for inspiral phase PN coefficients (absolute value for dchi_1)
+    if dchi_0 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi0(wf_dict, float(dchi_0))
+    if dchi_1 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi1(wf_dict, float(dchi_1))
+    if dchi_2 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi2(wf_dict, float(dchi_2))
+    if dchi_3 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi3(wf_dict, float(dchi_3))
+    if dchi_4 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi4(wf_dict, float(dchi_4))
+    if dchi_5l != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi5L(wf_dict, float(dchi_5l))
+    if dchi_6 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi6(wf_dict, float(dchi_6))
+    if dchi_6l != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi6L(wf_dict, float(dchi_6l))
+    if dchi_7 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDChi7(wf_dict, float(dchi_7))
+    # Relative shifts for intermediate phase coefficients (PhenomD/Pv2)
+    if dbeta_2 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDBeta2(wf_dict, float(dbeta_2))
+    if dbeta_3 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDBeta3(wf_dict, float(dbeta_3))
+    # Relative shifts for merger-ringdown phase coefficients  (PhenomD/Pv2)
+    if dalpha_2 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDAlpha2(wf_dict, float(dalpha_2))
+    if dalpha_3 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDAlpha3(wf_dict, float(dalpha_3))
+    if dalpha_4 != 0.:
+        lalsimulation.SimInspiralWaveformParamsInsertNonGRDAlpha4(wf_dict, float(dalpha_4))
+
+    waveform_kwargs["lal_waveform_dictionary"] = wf_dict
+    return _base_lal_cbc_fd_waveform(
         frequency_array,
-        mass_1,
-        mass_2,
-        luminosity_distance,
-        a_1,
-        tilt_1,
-        phi_12,
-        a_2,
-        tilt_2,
-        phi_jl,
-        theta_jn,
-        phase,
-        **kwargs
+        mass_1=mass_1,
+        mass_2=mass_2,
+        luminosity_distance=luminosity_distance,
+        a_1=a_1,
+        tilt_1=tilt_1,
+        phi_12=phi_12,
+        a_2=a_2,
+        tilt_2=tilt_2,
+        phi_jl=phi_jl,
+        theta_jn=theta_jn,
+        phase=phase,
+        **waveform_kwargs
     )

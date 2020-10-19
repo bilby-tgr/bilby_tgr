@@ -29,7 +29,7 @@ To check that you have installed it correctly, open an python prompt and run
 .. code-block:: python
 
    >>> import bilby_tgr
-   >>> bilby_tgr.source.non_gr_d_alpha_2_binary_black_hole
+   >>> bilby_tgr.source.TIGER_binary_black_hole
 
 If this returns the function, then you have it installed! You can now add new
 functions to the sources and access them in the same way.
@@ -41,7 +41,7 @@ Once you have installed :code:`bilby_tgr`, you can use the :code:`bilby_pipe`
 package to run stoachastic sampling. For help getting installed and setup with
 :code:`bilby_pipe` itself, see `the documentation <https://git.ligo.org/lscsoft/bilby_pipe>`_.
 Here, we give an example ini file. Notice that the :code:`frequency-domain-source-model`
-is pointing to the :code:`bilby_tgr.source.non_gr_d_alpha_2_binary_black_hole`
+is pointing to the :code:`bilby_tgr.source.TIGER_binary_black_hole`
 function. You can replace this with any new function you care to define in the
 :code:`bilby_tgr` package.
 
@@ -59,7 +59,7 @@ function. You can replace this with any new function you care to define in the
    psd-dict = {H1:BayesWave_median_PSD_H1.dat, L1:BayesWave_median_PSD_L1.dat, V1:BayesWave_median_PSD_V1.dat}
 
    label = GW170814
-   outdir = d_alpha_2
+   outdir = dalpha_2
    accounting = ligo.dev.o3.cbc.pe.lalinference
 
    duration = 4
@@ -70,7 +70,7 @@ function. You can replace this with any new function you care to define in the
    sampling-frequency=2048
    reference-frequency = 20
    waveform-approximant = IMRPhenomPV2
-   frequency-domain-source-model = bilby_tgr.source.non_gr_d_alpha_2_binary_black_hole
+   frequency-domain-source-model = bilby_tgr.source.TIGER_binary_black_hole
 
    calibration-model=CubicSpline
    spline-calibration-envelope-dict = {H1:GWTC1_GW170814_H_CalEnv.txt, L1:GWTC1_GW170814_L_CalEnv.txt, V1:GWTC1_GW170814_V_CalEnv.txt}
@@ -104,9 +104,20 @@ This will be a standard CBC prior, plus any new parameters.
     theta_jn = Sine(name="theta_jn")
     psi = Uniform(name="psi", minimum=0, maximum=np.pi, boundary="periodic")
     phase = Uniform(name="phase", minimum=0, maximum=2 * np.pi, boundary="periodic")
-    d_alpha_2 = Uniform(minimum=-10, maximum=10, latex_label="$\\delta \\alpha_2$")
-   
-   
+    dalpha_2 = Uniform(minimum=-10, maximum=10, latex_label="$\\delta \\alpha_2$")
+    dchi_0 = DeltaFunction(0.)
+    dchi_1 = DeltaFunction(0.)
+    dchi_2 = DeltaFunction(0.)
+    dchi_3 = DeltaFunction(0.)
+    dchi_4 = DeltaFunction(0.)
+    dchi_5l = DeltaFunction(0.)
+    dchi_6 = DeltaFunction(0.)
+    dchi_6l = DeltaFunction(0.)
+    dchi_7 = DeltaFunction(0.)
+    dbeta_2 = DeltaFunction(0.)
+    dbeta_3 = DeltaFunction(0.)
+    dalpha_3 = DeltaFunction(0.)
+    dalpha_4 = DeltaFunction(0.)
 
 .. |pipeline status| image:: https://git.ligo.org/gregory.ashton/bilby_tgr/badges/master/pipeline.svg
    :target: https://git.ligo.org/gregory.ashton/bilby_tgr/commits/master

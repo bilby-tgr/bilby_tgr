@@ -13,11 +13,11 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
         """ This is called after each test: use to clean up"""
         del self.frequency_array
 
-    def test_non_gr_d_alpha_2_binary_black_hole(self):
-        """ A simple test of the non_gr_d_alpha_2_binary_black_hole """
+    def test_TIGER_binary_black_hole(self):
+        """ A simple test of the TIGER_binary_black_hole """
 
         # Call the function with a fixed set of parameters
-        polarization_dict = bilby_tgr.source.non_gr_d_alpha_2_binary_black_hole(
+        polarization_dict = bilby_tgr.source.TIGER_binary_black_hole(
             frequency_array=self.frequency_array,
             mass_1=31,
             mass_2=30,
@@ -30,7 +30,20 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
             phi_jl=0.2,
             theta_jn=1.2,
             phase=0.4,
-            d_alpha_2=0.5)
+            dchi_0=0.1,
+            dchi_1=0.1,
+            dchi_2=0.1,
+            dchi_3=0.1,
+            dchi_4=0.1,
+            dchi_5l=0.1,
+            dchi_6=0.1,
+            dchi_6l=0.1,
+            dchi_7=0.1,
+            dbeta_2=0.1,
+            dbeta_3=0.1,
+            dalpha_2=0.1,
+            dalpha_3=0.1,
+            dalpha_4=0.1)
 
         # Run tests to check the output is as expected: a dictionary of arrays
         self.assertTrue(isinstance(polarization_dict, dict))
