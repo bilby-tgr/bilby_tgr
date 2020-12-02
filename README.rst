@@ -16,7 +16,7 @@ To get started developing and using :code:`bilby_tgr`, first clone the repositor
 
 .. code-block:: console
 
-   $ git clone git@git.ligo.org:gregory.ashton/bilby_tgr.git
+   $ git clone git@git.ligo.org:lscsoft/bilby_tgr.git
    
 To install, enter the cloned directory and run
 
@@ -29,7 +29,7 @@ To check that you have installed it correctly, open an python prompt and run
 .. code-block:: python
 
    >>> import bilby_tgr
-   >>> bilby_tgr.source.TIGER_binary_black_hole
+   >>> bilby_tgr.source.lal_binary_black_hole_TIGER
 
 If this returns the function, then you have it installed! You can now add new
 functions to the sources and access them in the same way.
@@ -41,7 +41,7 @@ Once you have installed :code:`bilby_tgr`, you can use the :code:`bilby_pipe`
 package to run stoachastic sampling. For help getting installed and setup with
 :code:`bilby_pipe` itself, see `the documentation <https://git.ligo.org/lscsoft/bilby_pipe>`_.
 Here, we give an example ini file. Notice that the :code:`frequency-domain-source-model`
-is pointing to the :code:`bilby_tgr.source.TIGER_binary_black_hole`
+is pointing to the :code:`bilby_tgr.source.lal_binary_black_hole_TIGER`
 function. You can replace this with any new function you care to define in the
 :code:`bilby_tgr` package.
 
@@ -69,8 +69,8 @@ function. You can replace this with any new function you care to define in the
    minimum-frequency=20
    sampling-frequency=2048
    reference-frequency = 20
-   waveform-approximant = IMRPhenomPV2
-   frequency-domain-source-model = bilby_tgr.source.TIGER_binary_black_hole
+   waveform-approximant = IMRPhenomPv2
+   frequency-domain-source-model = bilby_tgr.source.lal_binary_black_hole_TIGER
 
    calibration-model=CubicSpline
    spline-calibration-envelope-dict = {H1:GWTC1_GW170814_H_CalEnv.txt, L1:GWTC1_GW170814_L_CalEnv.txt, V1:GWTC1_GW170814_V_CalEnv.txt}
@@ -116,10 +116,12 @@ This will be a standard CBC prior, plus any new parameters.
     dchi_7 = DeltaFunction(0.)
     dbeta_2 = DeltaFunction(0.)
     dbeta_3 = DeltaFunction(0.)
+    dalpha_2 = DeltaFunction(0.)
     dalpha_3 = DeltaFunction(0.)
     dalpha_4 = DeltaFunction(0.)
+    dalpha_5 = DeltaFunction(0.)
 
-.. |pipeline status| image:: https://git.ligo.org/gregory.ashton/bilby_tgr/badges/master/pipeline.svg
-   :target: https://git.ligo.org/gregory.ashton/bilby_tgr/commits/master
-.. |coverage report| image:: https://gregory.ashton.docs.ligo.org/bilby_tgr/coverage_badge.svg
-   :target: https://gregory.ashton.docs.ligo.org/bilby_tgr/htmlcov/
+.. |pipeline status| image:: https://git.ligo.org/lscsoft/bilby_tgr/badges/master/pipeline.svg
+   :target: https://git.ligo.org/lscsoft/bilby_tgr/commits/master
+.. |coverage report| image:: https://lscsoft.docs.ligo.org/bilby_tgr/coverage_badge.svg
+   :target: https://lscsoft.docs.ligo.org/bilby_tgr/htmlcov/
