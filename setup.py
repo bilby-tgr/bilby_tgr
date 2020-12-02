@@ -64,7 +64,7 @@ def readfile(filename):
     return filecontents
 
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 version_file = write_version_file(VERSION)
 long_description = get_long_description()
 
@@ -73,8 +73,8 @@ setup(
     description="Testing GR source models to use with Bilby",
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    url="https://git.ligo.org/gregory.ashton/bilby_tgr",
-    author="Greg Ashton, Colm Talbot",
+    url="https://git.ligo.org/lscsoft/bilby_tgr",
+    author="Greg Ashton, Peter Pang, Geraint Pratten, Colm Talbot",
     author_email="gregory.ashton@monash.edu",
     license="MIT",
     version=VERSION,
