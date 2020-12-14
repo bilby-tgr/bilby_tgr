@@ -78,7 +78,7 @@ function. You can replace this with any new function you care to define in the
 
    deltaT = 0.2
    sampler = dynesty
-   sampler-kwargs = {nlive: 1000, sample: rwalk, walks=50, nact=5}
+   sampler-kwargs = {nlive: 1000, nact=50}
    n-parallel = 4
 
    transfer-files = False
