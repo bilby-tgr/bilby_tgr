@@ -88,8 +88,8 @@ This will be a standard CBC prior, plus any new parameters.
 
 .. code-block:: python
 
-    chirp_mass = Uniform(name="chirp_mass", minimum=12.299703, maximum=45, unit='$M_{\\odot}$')
-    mass_ratio = Uniform(name="mass_ratio", minimum=0.125, maximum=1)
+    chirp_mass = UniformInComponentsChirpMass(name="chirp_mass", minimum=12.299703, maximum=45, unit='$M_{\\odot}$')
+    mass_ratio = UniformInComponentsMassRatio(name="mass_ratio", minimum=0.125, maximum=1)
     mass_1 = Constraint(name="mass_1", minimum=1.001398, maximum=1000)
     mass_2 = Constraint(name="mass_2", minimum=1.001398, maximum=1000)
     a_1 = Uniform(name="a_1", minimum=0, maximum=0.88)
@@ -104,7 +104,6 @@ This will be a standard CBC prior, plus any new parameters.
     theta_jn = Sine(name="theta_jn")
     psi = Uniform(name="psi", minimum=0, maximum=np.pi, boundary="periodic")
     phase = Uniform(name="phase", minimum=0, maximum=2 * np.pi, boundary="periodic")
-    dalpha_2 = Uniform(minimum=-10, maximum=10, latex_label="$\\delta \\alpha_2$")
     dchi_0 = DeltaFunction(0.)
     dchi_1 = DeltaFunction(0.)
     dchi_2 = DeltaFunction(0.)
@@ -116,7 +115,7 @@ This will be a standard CBC prior, plus any new parameters.
     dchi_7 = DeltaFunction(0.)
     dbeta_2 = DeltaFunction(0.)
     dbeta_3 = DeltaFunction(0.)
-    dalpha_2 = DeltaFunction(0.)
+    dalpha_2 = Uniform(minimum=-10, maximum=10, latex_label="$\\delta \\alpha_2$")
     dalpha_3 = DeltaFunction(0.)
     dalpha_4 = DeltaFunction(0.)
     dalpha_5 = DeltaFunction(0.)
