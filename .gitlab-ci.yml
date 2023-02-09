@@ -10,31 +10,74 @@
 # before the next stage begins
 
 stages:
+  - initial
   - test
   - deploy
 
 .test-python: &test-python
-  stage: test
+  stage: initial
   image: python
   script:
     - python -m pip install .
     - python -c "import bilby_tgr"
 
 # test basic setup on python3
-basic-3.7:
+basic-3.8:
   <<: *test-python
-  image: python:3.7
+  image: python:3.8 #possibly switch twose to bilby containers
 
-# test example on python 3.7
-python-3.7:
+basic-3.9:
+  <<: *test-python
+  image: python:3.9
+
+basic-3.10:
+  <<: *test-python
+  image: python:3.10
+
+.precommits: &precommits
+  stage: initial
+  script:
+    - source activate $PYVERSION
+    - mkdir -p $CACHE_DIR
+    - pip install --upgrade pip
+    - pip --cache-dir=$CACHE_DIR install --upgrade bilby
+    - pip --cache-dir=$CACHE_DIR install .
+    - pip --cache-dir=$CACHE_DIR install pre-commit
+    # Run precommits (flake8, spellcheck, isort, no merge conflicts, etc)
+    - pre-commit run --all-files --verbose --show-diff-on-failure
+
+precommits-py3.8:
+  <<: *precommits
+  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python38
+  variables:
+    CACHE_DIR: ".pip38"
+    PYVERSION: "python38"
+
+precommits-py3.9:
+  <<: *precommits
+  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python39
+  variables:
+    CACHE_DIR: ".pip39"
+    PYVERSION: "python39"
+
+precommits-py3.10:
+  <<: *precommits
+  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python310
+  variables:
+    CACHE_DIR: ".pip310"
+    PYVERSION: "python310"
+
+
+
+
+# test example on python 3.10
+python-3.10:
   stage: test
-  image: bilbydev/v2-dockerfile-test-suite-python37
+  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python310
+  needs: ["basic-3.10", "precommits-py3.10"]
   script:
     - python -m pip install .
-
-    # Run pyflakes
-    - flake8 .
-
+    - python -m pip list installed
     # Run tests and collect coverage data
     - pytest --cov=bilby_tgr --durations 10
     - coverage html
@@ -47,8 +90,7 @@ python-3.7:
 
 pages:
   stage: deploy
-  dependencies:
-    - python-3.7
+  needs: [python-3.10]
   script:
     - mkdir public/
     - mv htmlcov/ public/
