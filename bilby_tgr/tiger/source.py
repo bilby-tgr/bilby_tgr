@@ -3,7 +3,7 @@ from bilby.gw.source import _base_lal_cbc_fd_waveform
 from lal import CreateDict
 
 
-def lal_binary_black_hole_TIGER(
+def lal_binary_black_hole(
     frequency_array, mass_1, mass_2, luminosity_distance,
     a_1, tilt_1, phi_12, a_2, tilt_2, phi_jl,
     theta_jn, phase,
@@ -135,7 +135,7 @@ def lal_binary_black_hole_TIGER(
         phi_jl=phi_jl, **waveform_kwargs)
 
 
-def lal_binary_neutron_star_TIGER(
+def lal_binary_neutron_star(
         frequency_array, mass_1, mass_2, luminosity_distance, a_1, tilt_1,
         phi_12, a_2, tilt_2, phi_jl, theta_jn, phase, lambda_1, lambda_2,
         dchi_0, dchi_1, dchi_2, dchi_3, dchi_4, dchi_5l, dchi_6, dchi_6l, dchi_7,
@@ -216,7 +216,7 @@ def lal_binary_neutron_star_TIGER(
                 only take positive modes and return the positive and the negative
                 mode together, while others need to call both.  e.g.
                 waveform_arguments = dict(waveform_approximant='IMRPhenomHM',
-                mode_array=[[2,2],[4,-4]]) returns the 22 a\nd 2-2 of IMRPhenomHM.
+                mode_array=[[2,2],[4,-4]]) returns the 22 and 2-2 of IMRPhenomHM.
                 However, waveform_arguments =
                 dict(waveform_approximant='IMRPhenomXHM', mode_array=[[2,2],[4,-4]])
                 returns the 22 and 4-4 of IMRPhenomXHM.

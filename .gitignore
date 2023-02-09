@@ -1,0 +1,13 @@
+.coverage
+build/
+dist/
+docs/_*
+bilby_tgr.egg-info/
+MANIFEST
+*.pyc
+*.log
+*.version
+*.ipynb_checkpoints
+**/outdir
+.idea/*
+bilby_tgr/_version.py

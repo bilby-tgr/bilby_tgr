@@ -17,7 +17,7 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
         """ A simple test of the TIGER_binary_black_hole """
 
         # Call the function with a fixed set of parameters
-        polarization_dict = bilby_tgr.source.lal_binary_black_hole_TIGER(
+        polarization_dict = bilby_tgr.tiger.source.lal_binary_black_hole(
             frequency_array=self.frequency_array,
             mass_1=31,
             mass_2=30,
@@ -57,7 +57,7 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
         """ A simple test of the TIGER_binary_black_hole """
 
         # Call the function with a fixed set of parameters
-        polarization_dict = bilby_tgr.source.lal_binary_neutron_star_TIGER(
+        polarization_dict = bilby_tgr.tiger.source.lal_binary_neutron_star(
             frequency_array=self.frequency_array,
             mass_1=1.4,
             mass_2=1.4,

@@ -29,7 +29,7 @@ To check that you have installed it correctly, open an python prompt and run
 .. code-block:: python
 
    >>> import bilby_tgr
-   >>> bilby_tgr.source.lal_binary_black_hole_TIGER
+   >>> bilby_tgr.tiger.source.lal_binary_black_hole
 
 If this returns the function, then you have it installed! You can now add new
 functions to the sources and access them in the same way.
@@ -41,7 +41,7 @@ Once you have installed :code:`bilby_tgr`, you can use the :code:`bilby_pipe`
 package to run stoachastic sampling. For help getting installed and setup with
 :code:`bilby_pipe` itself, see `the documentation <https://git.ligo.org/lscsoft/bilby_pipe>`_.
 Here, we give an example ini file. Notice that the :code:`frequency-domain-source-model`
-is pointing to the :code:`bilby_tgr.source.lal_binary_black_hole_TIGER`
+is pointing to the :code:`bilby_tgr.tiger.source.lal_binary_black_hole`
 function. You can replace this with any new function you care to define in the
 :code:`bilby_tgr` package.
 
