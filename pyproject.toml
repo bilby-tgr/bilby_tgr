@@ -20,7 +20,7 @@ authors = [
 readme = "README.rst"
 requires-python = ">=3.8"
 license = { text = "MIT" }
-version = "0.0.4"
+version = "0.0.4b"
 dependencies = [
     "bilby",
     "lalsuite",
@@ -31,6 +31,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[tool.setuptools]
+packages = ["bilby_tgr", "bilby_tgr.tiger", "bilby_tgr.mdr", "bilby_tgr.siqm"]
 
 [tool.setuptools_scm]
 write_to = "bilby_tgr/_version.py"
