@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import sys
 import os
 
@@ -42,12 +42,13 @@ setup(
     long_description=long_description,
     long_description_content_type="text/x-rst",
     url="https://git.ligo.org/lscsoft/bilby_tgr",
-    author="Greg Ashton, Colm Talbot, Geraint Pratten, Tsung-Ho Pang, Michalis Agathos, Tomasz Baka",
+    author=(
+        "Greg Ashton, Colm Talbot, Geraint Pratten, Tsung-Ho Pang, Michalis Agathos, Tomasz Baka, "
+        "Elisa Maggio, Abhirup Ghosh"
+    ),
     author_email="gregory.ashton@ligo.org",
     license="MIT",
-    packages=["bilby_tgr"],
-    package_dir={"bilby_tgr": "bilby_tgr"},
-    package_data={},
+    packages=find_packages(),
     python_requires=">=3.8",
     install_requires=get_requirements(),
     classifiers=[

@@ -15,7 +15,9 @@ authors = [
         {name = "Geraint Pratten"},
         {name = "Tsun-Ho Pang"},
         {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
-        {name = "Tomasz Baka"}
+        {name = "Tomasz Baka"},
+	{name = "Elisa Maggio"},
+	{name = "Abhirup Ghosh"}
         ]
 readme = "README.rst"
 requires-python = ">=3.8"
