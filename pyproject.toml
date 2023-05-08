@@ -16,8 +16,11 @@ authors = [
         {name = "Tsun-Ho Pang"},
         {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
         {name = "Tomasz Baka"},
-	{name = "Elisa Maggio"},
-	{name = "Abhirup Ghosh"}
+        {name = "Elise Sänger"},
+        {name = "Ajit Mehta"},
+        {name = "Jan Steinhoff"},
+        {name = "Elisa Maggio"},
+        {name = "Abhirup Ghosh"}
         ]
 readme = "README.rst"
 requires-python = ">=3.8"
@@ -35,7 +38,7 @@ classifiers = [
 ]
 
 [tool.setuptools]
-packages = ["bilby_tgr", "bilby_tgr.tiger", "bilby_tgr.mdr", "bilby_tgr.siqm"]
+packages = ["bilby_tgr", "bilby_tgr.tiger", "bilby_tgr.mdr", "bilby_tgr.siqm", "bilby_tgr.pseob", "bilby_tgr.fti"]
 
 [tool.setuptools_scm]
 write_to = "bilby_tgr/_version.py"
