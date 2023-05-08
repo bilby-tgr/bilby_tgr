@@ -44,6 +44,7 @@ setup(
     url="https://git.ligo.org/lscsoft/bilby_tgr",
     author=(
         "Greg Ashton, Colm Talbot, Geraint Pratten, Tsung-Ho Pang, Michalis Agathos, Tomasz Baka, "
+        "Elise Sänger, Ajit Mehta, Jan Steinhoff, "
         "Elisa Maggio, Abhirup Ghosh"
     ),
     author_email="gregory.ashton@ligo.org",

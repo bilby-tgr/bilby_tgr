@@ -1,0 +1,36 @@
+chirp_mass = bilby.gw.prior.UniformInComponentsChirpMass(name="chirp_mass", minimum=12, maximum=45, unit='$M_{\\odot}$')
+mass_ratio = bilby.gw.prior.UniformInComponentsMassRatio(name="mass_ratio", minimum=0.125, maximum=1)
+mass_1 = Constraint(name="mass_1", minimum=5, maximum=160)
+mass_2 = Constraint(name="mass_2", minimum=5, maximum=160)
+luminosity_distance = bilby.gw.prior.UniformSourceFrame(name="luminosity_distance", minimum=1e2, maximum=5e3, unit="Mpc")
+dec = Cosine(name="dec")
+ra = Uniform(name="ra", minimum=0, maximum=2*np.pi, boundary="periodic")
+theta_jn = Sine(name="theta_jn")
+psi = Uniform(name="psi", minimum=0, maximum=np.pi, boundary="periodic")
+phase = Uniform(name="phase", minimum=0, maximum=2*np.pi, boundary="periodic")
+chi_1 = bilby.gw.prior.AlignedSpin(name='chi_1', a_prior=Uniform(minimum=0, maximum=0.99))
+chi_2 = bilby.gw.prior.AlignedSpin(name='chi_2', a_prior=Uniform(minimum=0, maximum=0.99))
+dchi_Minus2 = 0
+dchi_0   = Uniform(name="dchi_0", minimum=-20, maximum=20)
+dchi_1 = 0
+dchi_2 = 0
+dchi_3 = 0
+dchi_3NS = 0
+dchi_3S = 0
+dchi_4 = 0
+dchi_4NS = 0
+dchi_4S = 0
+dchi_5l = 0
+dchi_5lNS = 0
+dchi_5lS = 0
+dchi_6 = 0
+dchi_6NS = 0
+dchi_6S = 0
+dchi_6l = 0
+dchi_7 = 0
+dchi_7NS = 0
+dchi_7S = 0
+dchi_kappaS = 0
+dchi_kappaA = 0
+f_window_div_f_peak = 1.0
+NumCycles = 1.0

@@ -1,4 +1,4 @@
-from . import tiger, siqm, mdr, pseob
+from . import tiger, siqm, mdr, pseob, fti
 try:
     from ._version import version as __version__
 except ModuleNotFoundError:  # development mode
