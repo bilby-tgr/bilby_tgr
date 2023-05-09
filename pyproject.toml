@@ -25,7 +25,7 @@ authors = [
 readme = "README.rst"
 requires-python = ">=3.8"
 license = { text = "MIT" }
-version = "0.0.4b"
+version = "0.1a1"
 dependencies = [
     "bilby",
     "lalsuite",
