@@ -22,6 +22,10 @@ authors = [
         {name = "Elisa Maggio"},
         {name = "Abhirup Ghosh"}
         ]
+maintainers = [
+        {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
+        {name = "Aditya Vijaykumar"},
+        ]
 readme = "README.rst"
 requires-python = ">=3.8"
 license = { text = "MIT" }
@@ -35,7 +39,16 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Astronomy",
 ]
+
+[project.urls]
+repository = "https://git.ligo.org/lscsoft/bilby_tgr"
+
+[project.optional-dependencies]
+automation = ["cbcflow>=0.2.2", "asimov>=0.5.0b11"]
 
 [tool.setuptools]
 packages = ["bilby_tgr", "bilby_tgr.tiger", "bilby_tgr.mdr", "bilby_tgr.siqm", "bilby_tgr.pseob", "bilby_tgr.fti"]
