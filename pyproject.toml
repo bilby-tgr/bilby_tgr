@@ -21,7 +21,17 @@ authors = [
         {name = "Ajit Mehta"},
         {name = "Jan Steinhoff"},
         {name = "Elisa Maggio"},
-        {name = "Abhirup Ghosh"}
+        {name = "Abhirup Ghosh"},
+        {name = "Stanislav Babak"},
+        {name = "Gregorio Carullo"},
+        {name = "Danny Laghi"},
+        {name = "Haris K"},
+        {name = "Balazs Cirok"},
+        {name = "Krishnendu N V"},
+        {name = "Naresh Adhikari"},
+        {name = "Anuradha Gupta"},
+        {name = "Ish Gupta"},
+        {name = "Aditya Vijaykumar"}
         ]
 maintainers = [
         {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
