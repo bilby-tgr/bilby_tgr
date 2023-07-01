@@ -11,3 +11,4 @@ MANIFEST
 **/outdir
 .idea/*
 bilby_tgr/_version.py
+__pycache__/
