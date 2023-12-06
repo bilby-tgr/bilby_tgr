@@ -2,6 +2,7 @@ import bilby.gw.prior as prior
 import os
 from bilby.core.utils import logger
 
+
 DEFAULT_PRIOR_DIR = os.path.join(os.path.dirname(__file__), 'prior_files')
 
 
@@ -60,7 +61,7 @@ class BBHPriorDict(prior.CBCPriorDict):
             return True
 
         sampling_parameters = {key for key in self if not isinstance(
-            self[key], (prior.DeltaFunction, prior.Constraint))}
+            self[key], prior.Constraint)}
 
         mass_parameters = {'mass_1', 'mass_2', 'chirp_mass', 'total_mass', 'mass_ratio', 'symmetric_mass_ratio'}
         spin_tilt_1_parameters = {'tilt_1', 'cos_tilt_1'}
@@ -69,6 +70,19 @@ class BBHPriorDict(prior.CBCPriorDict):
         inclination_parameters = {'theta_jn', 'cos_theta_jn'}
         distance_parameters = {'luminosity_distance', 'comoving_distance', 'redshift'}
         siqm_parameters = {'dchi_kappaS', 'dchi_kappaA', 'dchi_kappa1', 'dchi_kappa2'}
+
+        if key in {'dchi_kappaS', 'dchi_kappaA'}:
+            if 'dchi_kappa1' in sampling_parameters or 'dchi_kappa2' in sampling_parameters:
+                logger.disabled = False
+                logger.warning("Incompatible dkappas provided. This may lead to unexpected behaviour. \
+                                Provide (dchi_kappaS and dchi_kappaA) xor (dchi_kappa1 and dchi_kappa2) instead.")
+                return True
+        if key in {'dchi_kappa1', 'dchi_kappa2'}:
+            if 'dchi_kappaS' in sampling_parameters or 'dchi_kappaA' in sampling_parameters:
+                logger.disabled = False
+                logger.warning("Incompatible dkappas provided. This may lead to unexpected behaviour. \
+                                Provide (dchi_kappaS and dchi_kappaA) xor (dchi_kappa1 and dchi_kappa2) instead.")
+                return True
 
         for independent_parameters, parameter_set in \
                 zip([2, 2, 1, 1, 1, 1, 2],
@@ -85,7 +99,73 @@ class BBHPriorDict(prior.CBCPriorDict):
                                    .format(parameter_set.intersection(self)))
                     logger.disabled = False
                     return True
+
         return False
+
+
+class BNSPriorDict(prior.CBCPriorDict):
+    def __init__(self, dictionary=None, filename=None, aligned_spin=True,
+                 conversion_function=None):
+        """
+        (Adapted from bilby)
+        Initialises a Prior set for Binary Neutron Stars with FTI parameters.
+
+        Parameters
+        ==========
+        dictionary: dict, optional
+            See superclass
+        filename: str, optional
+            See superclass
+        conversion_function: func
+            Function to convert between sampled parameters and constraints.
+            By default this generates many additional parameters, see
+            BNSPriorDict.default_conversion_function
+        """
+        if aligned_spin:
+            default_file = 'aligned_spins_bns_tides_on.prior'
+        else:
+            default_file = 'precessing_spins_bns_tides_on.prior'
+        if dictionary is None and filename is None:
+            filename = os.path.join(DEFAULT_PRIOR_DIR, default_file)
+            logger.info('No prior given, using default BNS priors in {}.'.format(filename))
+        elif filename is not None:
+            if not os.path.isfile(filename):
+                filename = os.path.join(DEFAULT_PRIOR_DIR, filename)
+        super(BNSPriorDict, self).__init__(dictionary=dictionary, filename=filename,
+                                           conversion_function=conversion_function)
+
+    def test_redundancy(self, key, disable_logging=False):
+        logger.disabled = disable_logging
+        logger.info("Performing redundancy check using BBHPriorDict(self).test_redundancy")
+        bbh_redundancy = BBHPriorDict(self).test_redundancy(key)
+        logger.disabled = False
+
+        if bbh_redundancy:
+            return True
+        redundant = False
+
+        sampling_parameters = {key for key in self if not isinstance(
+            self[key], (prior.Constraint))}
+
+        tidal_parameters = \
+            {'lambda_1', 'lambda_2', 'lambda_tilde', 'delta_lambda_tilde'}
+
+        if key in tidal_parameters:
+            if len(tidal_parameters.intersection(sampling_parameters)) > 2:
+                redundant = True
+                logger.disabled = disable_logging
+                logger.warning('{} already in prior. '
+                               'This may lead to unexpected behaviour.'
+                               .format(tidal_parameters.intersection(self)))
+                logger.disabled = False
+            elif len(tidal_parameters.intersection(sampling_parameters)) == 2:
+                redundant = True
+        return redundant
+
+    @property
+    def tidal(self):
+        """ Return true if priors include phase parameters """
+        return self.is_nonempty_intersection("tidal")
 
 
 # (Adapted from bilby)
