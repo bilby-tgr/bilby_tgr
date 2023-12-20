@@ -32,7 +32,7 @@ license = { text = "MIT" }
 version = "0.1a1"
 dependencies = [
     "bilby",
-    "lalsuite",
+    "lalsuite>=7.14",
     "numpy>=1.17"
 ]
 classifiers = [
