@@ -12,6 +12,7 @@ description = "Testing GR analysis pipelines to use with Bilby"
 authors = [
         {name = "Gregory Ashton", email = "gregory.ashton@ligo.org"},
         {name = "Colm Talbot"},
+        {name = "Soumen Roy"},
         {name = "Geraint Pratten"},
         {name = "Tsun-Ho Pang"},
         {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
