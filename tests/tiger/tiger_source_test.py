@@ -32,9 +32,9 @@ class TestLalBBH_PhenomP(unittest.TestCase):
             dbeta_2=0.1,
             dbeta_3=0.1,
             dalpha_2=0.1,
-            dalpha_3= 0.1,
-            dalpha_4= 0.1,
-            dalpha_5= 0.1,
+            dalpha_3=0.1,
+            dalpha_4=0.1,
+            dalpha_5=0.1,
         )
         self.waveform_kwargs = dict(
             waveform_approximant="IMRPhenomPv3HM",
@@ -170,6 +170,7 @@ class TestLalBBH_PhenomX(unittest.TestCase):
             ),
             dict,
         )
+
 
 class TestLalBNS_PhenomP(unittest.TestCase):
     def setUp(self):

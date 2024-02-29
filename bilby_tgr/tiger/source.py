@@ -19,10 +19,9 @@ def lal_binary_black_hole_TIGER_PhenomP(
     legacy PhenomD/P coefficients in the intermediate-merger-ringdown
     phase: dbeta_2, dbeta_3, dalpha_2, dalpha_3, dalpha_4, dalpha_5.
     PhenomD/P does not support the deviation in the negative PN coefficient.
-    
-    Recommended waveform models: IMRPhenomD, IMRPhenomP, 
-        IMRPhenomPv2, IMRPhenomPv3, IMRPhenomHM, IMRPhenomPv3HM
-    
+    Recommended waveform models: IMRPhenomD, IMRPhenomP,
+    IMRPhenomPv2, IMRPhenomPv3, IMRPhenomHM, IMRPhenomPv3HM
+    ----------
     Parameters
     ----------
     frequency_array: array_like
@@ -107,7 +106,6 @@ def lal_binary_black_hole_TIGER_PhenomP(
                 However, waveform_arguments =
                 dict(waveform_approximant='IMRPhenomXHM', mode_array=[[2,2],[4,-4]])
                 returns the 22 and 4-4 of IMRPhenomXHM.
-                
     Returns
     -------
     dict: A dictionary with the plus and cross polarisation strain modes
@@ -184,10 +182,9 @@ def lal_binary_black_hole_TIGER_PhenomX(
     the PhenomX post-inspiral coefficients: db_1, db_2, db_3,
     db_4, dc_1, dc_2, dc_4, dc_l.
     PhenomX supports the -1PN coefficient and -0.5PN coefficient.
-
     Recommended waveform models: IMRPhenomXAS, IMRPhenomXP,
     IMRPhenomXHM, IMRPhenomXPHM.
-
+    ----------
     Parameters
     ----------
     frequency_array: array_like
@@ -356,12 +353,11 @@ def lal_binary_neutron_star_TIGER_PhenomP(
         **kwargs):
     """ A Binary Neutron Star waveform model using lalsimulation with
     parameterized corrections in the TIGER framework. This interface
-    supports the deviation in PN coefficients. 
-    PhenomD/P does not support the deviation in the negative PN coefficient. 
-    
+    supports the deviation in PN coefficients.
+    PhenomD/P does not support the deviation in the negative PN coefficient.
     Recommended waveform models: IMRPhenomD_NRTidal, IMRPhenomD_NRTidalv2,
     IMRPhenomPv2_NRTidal, IMRPhenomPv2_NRTidalv2
-    
+    ----------
     Parameters
     ----------
     frequency_array: array_like
@@ -469,7 +465,6 @@ def lal_binary_neutron_star_TIGER_PhenomP(
         phi_jl=phi_jl, lambda_1=lambda_1, lambda_2=lambda_2, **waveform_kwargs)
 
 
-
 def lal_binary_neutron_star_TIGER_PhenomX(
         frequency_array, mass_1, mass_2, luminosity_distance, a_1, tilt_1,
         phi_12, a_2, tilt_2, phi_jl, theta_jn, phase, lambda_1, lambda_2,
@@ -479,9 +474,8 @@ def lal_binary_neutron_star_TIGER_PhenomX(
     parameterized corrections in the TIGER framework. This interface
     supports the PhenomX family with deviation in PN coefficients and
     also, in the negative PN terms (-1PN and -0.5PN).
-    
     Recommended waveform models: IMRPhenomXAS_NRTidalv2, IMRPhenomXP_NRTidalv2
-
+    ----------
     Parameters
     ----------
     frequency_array: array_like
@@ -595,4 +589,3 @@ def lal_binary_neutron_star_TIGER_PhenomX(
         luminosity_distance=luminosity_distance, theta_jn=theta_jn, phase=phase,
         a_1=a_1, a_2=a_2, tilt_1=tilt_1, tilt_2=tilt_2, phi_12=phi_12,
         phi_jl=phi_jl, lambda_1=lambda_1, lambda_2=lambda_2, **waveform_kwargs)
-
