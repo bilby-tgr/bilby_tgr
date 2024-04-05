@@ -17,7 +17,7 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
         """ A simple test of the TIGER_binary_black_hole """
 
         # Call the function with a fixed set of parameters
-        polarization_dict = bilby_tgr.tiger.source.lal_binary_black_hole(
+        polarization_dict = bilby_tgr.tiger.source.lal_binary_black_hole_TIGER_PhenomX(
             frequency_array=self.frequency_array,
             mass_1=31,
             mass_2=30,
@@ -30,6 +30,8 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
             phi_jl=0.2,
             theta_jn=1.2,
             phase=0.4,
+            dchi_minus2=0.1,
+            dchi_minus1=0.1,
             dchi_0=0.1,
             dchi_1=0.1,
             dchi_2=0.1,
@@ -39,13 +41,15 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
             dchi_6=0.1,
             dchi_6l=0.1,
             dchi_7=0.1,
-            dbeta_2=0.1,
-            dbeta_3=0.1,
-            dalpha_2=0.1,
-            dalpha_3=0.1,
-            dalpha_4=0.1,
-            dalpha_5=0.1,
-            waveform_approximant='IMRPhenomPv2')
+            db_1=0.1,
+            db_2=0.1,
+            db_3=0.1,
+            db_4=0.1,
+            dc_1=0.1,
+            dc_2=0.1,
+            dc_4=0.1,
+            dc_l=0.1,
+            waveform_approximant='IMRPhenomXPHM')
 
         # Run tests to check the output is as expected: a dictionary of arrays
         self.assertTrue(isinstance(polarization_dict, dict))
@@ -57,7 +61,7 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
         """ A simple test of the TIGER_binary_black_hole """
 
         # Call the function with a fixed set of parameters
-        polarization_dict = bilby_tgr.tiger.source.lal_binary_neutron_star(
+        polarization_dict = bilby_tgr.tiger.source.lal_binary_neutron_star_TIGER_PhenomX(
             frequency_array=self.frequency_array,
             mass_1=1.4,
             mass_2=1.4,
@@ -72,6 +76,8 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
             phase=0.4,
             lambda_1=500,
             lambda_2=500,
+            dchi_minus2=0.1,
+            dchi_minus1=0.1,
             dchi_0=0.1,
             dchi_1=0.1,
             dchi_2=0.1,
@@ -81,7 +87,7 @@ class TestPriorInstantiationWithoutOptionalPriors(unittest.TestCase):
             dchi_6=0.1,
             dchi_6l=0.1,
             dchi_7=0.1,
-            waveform_approximant='IMRPhenomPv2_NRTidal')
+            waveform_approximant='IMRPhenomXP_NRTidalv2')
 
         # Run tests to check the output is as expected: a dictionary of arrays
         self.assertTrue(isinstance(polarization_dict, dict))
