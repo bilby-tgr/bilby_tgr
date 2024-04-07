@@ -1,5 +1,5 @@
 include README.rst
 include LICENSE.md
 include requirements.txt
-include bilby/_version.py
-recursive-include test *.py *.prior
+include bilby_tgr/_version.py
+recursive-include tests *.py *.prior

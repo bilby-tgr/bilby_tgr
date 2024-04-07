@@ -50,6 +50,10 @@ setup(
     author_email="gregory.ashton@ligo.org",
     license="MIT",
     packages=find_packages(),
+    package_data={
+        "bilby_tgr.fti": ["prior_files/*"],
+        "bilby_tgr.mdr": ["prior_files/*"],
+    },
     python_requires=">=3.8",
     install_requires=get_requirements(),
     classifiers=[
