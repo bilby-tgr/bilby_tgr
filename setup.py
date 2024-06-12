@@ -3,6 +3,8 @@
 from setuptools import setup, find_packages
 import sys
 import os
+import json
+
 
 python_version = sys.version_info
 if python_version < (3, 8):
@@ -27,6 +29,14 @@ def get_requirements(kind=None):
     return requirements
 
 
+def get_authors():
+    here = os.path.abspath(os.path.dirname(__file__))
+    with open(os.path.join(here, ".zenodo.json")) as f:
+        data = json.load(f)
+    authors = [author['name'] for author in data['creators']]
+    return authors
+
+
 # get version info from __init__.py
 def readfile(filename):
     with open(filename) as fp:
@@ -42,11 +52,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/x-rst",
     url="https://git.ligo.org/lscsoft/bilby_tgr",
-    author=(
-        "Greg Ashton, Colm Talbot, Geraint Pratten, Tsung-Ho Pang, Michalis Agathos, Tomasz Baka, "
-        "Elise Sänger, Ajit Mehta, Jan Steinhoff, "
-        "Elisa Maggio, Abhirup Ghosh"
-    ),
+    author=get_authors(),
     author_email="gregory.ashton@ligo.org",
     license="MIT",
     packages=find_packages(),
