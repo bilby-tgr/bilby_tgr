@@ -1,6 +1,7 @@
 MIT License
 
 Copyright (c) 2020 Gregory Ashton
+Copyright (c) 2022 Michalis Agathos, Tomasz Baka, Aditya Vijaykumar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
