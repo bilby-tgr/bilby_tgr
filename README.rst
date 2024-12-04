@@ -38,7 +38,7 @@ Running using bilby_pipe
 ------------------------
 
 Once you have installed :code:`bilby_tgr`, you can use the :code:`bilby_pipe`
-package to run stoachastic sampling. For help getting installed and setup with
+package to run stochastic sampling. For help getting installed and setup with
 :code:`bilby_pipe` itself, see `the documentation <https://git.ligo.org/lscsoft/bilby_pipe>`_.
 Here, we give an example ini file. Notice that the :code:`frequency-domain-source-model`
 is pointing to the :code:`bilby_tgr.tiger.source.lal_binary_black_hole`
