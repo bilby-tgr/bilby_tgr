@@ -1,0 +1,47 @@
+mass_1 = Constraint(minimum=3.0, maximum=120.0, name='mass_1', latex_label='$m_{1}$', unit=None)
+mass_2 = Constraint(minimum=3.0, maximum=120.0, name='mass_2', latex_label='$m_{2}$', unit=None)
+mass_ratio = bilby.gw.prior.UniformInComponentsMassRatio(minimum=0.05, maximum=1, name='mass_ratio', latex_label='$q$', unit=None)
+chirp_mass = bilby.gw.prior.UniformInComponentsChirpMass(name='chirp_mass',maximum=45.0,minimum=15.0,unit='$M_{\odot}$')
+dec = Cosine(name='dec', latex_label='$\\mathrm{DEC}$', unit=None, minimum=-1.5707963267948966, maximum=1.5707963267948966)
+ra = Uniform(minimum=0, maximum=6.283185307179586, name='ra', latex_label='$\\mathrm{RA}$', unit=None, boundary='periodic')
+cos_theta_jn = Uniform(minimum=-1, maximum=1, name='cos_theta_jn', latex_label='$\\cos\\theta_{JN}$', unit=None)
+psi = Uniform(minimum=0, maximum=3.141592653589793, name='psi', latex_label='$\\psi$', unit=None, boundary='periodic')
+phase = Uniform(minimum=0, maximum=6.283185307179586, name='phase', latex_label='$\\phi$', unit=None, boundary='periodic')
+a_1 = Uniform(name='a_1', minimum=0, maximum=0.99)
+a_2 = Uniform(name='a_2', minimum=0, maximum=0.99)
+tilt_1 = Sine(name='tilt_1')
+tilt_2 = Sine(name='tilt_2')
+phi_12 = Uniform(name='phi_12', minimum=0, maximum=2 * np.pi, boundary='periodic')
+phi_jl = Uniform(name='phi_jl', minimum=0, maximum=2 * np.pi, boundary='periodic')
+luminosity_distance = Uniform(name='luminosity_distance', minimum=50, maximum=5000, unit='Mpc', latex_label='$d_L$')
+domega220 = Uniform(minimum=-0.8, maximum=2.0, name='domega220', unit=None, boundary=None)
+dtau220   = Uniform(minimum=-0.8, maximum=2.0, name='dtau220', unit=None, boundary=None)
+domega210 = 0.0
+dtau210   = 0.0
+domega330 = 0.0
+dtau330   = 0.0
+domega440 = 0.0
+dtau440   = 0.0
+domega550 = 0.0
+dtau550   = 0.0
+domega320 = 0.0
+dtau320   = 0.0
+domega430 = 0.0
+dtau430   = 0.0
+dA22 = 0.0
+dw22 = 0.0
+dA21 = 0.0
+dw21 = 0.0
+dA33 = 0.0
+dw33 = 0.0
+dA32 = 0.0
+dw32 = 0.0
+dA44 = 0.0
+dw44 = 0.0
+dA43 = 0.0
+dw43 = 0.0
+dA55 = 0.0
+dw55 = 0.0
+dTpeak = 0.0
+da6 = 0.0
+ddSO = 0.0
