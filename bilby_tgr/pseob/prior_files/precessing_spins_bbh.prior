@@ -1,0 +1,54 @@
+
+# (Adapted from bilby)
+# These are the default priors we use for BBH systems with pSEOB parameters.
+# This version is specific to the pSEOBNRv5PHM model.
+# Note that you may wish to use more specific mass and distance parameters.
+# These commands are all known to bilby.gw.prior.
+# Lines beginning "#" are ignored.
+mass_1 = Constraint(name='mass_1', minimum=5, maximum=100)
+mass_2 = Constraint(name='mass_2', minimum=5, maximum=100)
+mass_ratio = bilby.gw.prior.UniformInComponentsMassRatio(name='mass_ratio', minimum=0.125, maximum=1)
+chirp_mass = bilby.gw.prior.UniformInComponentsChirpMass(name='chirp_mass', minimum=25, maximum=100)
+luminosity_distance = bilby.gw.prior.UniformSourceFrame(name='luminosity_distance', minimum=1e2, maximum=5e3)
+dec = Cosine(name='dec')
+ra = Uniform(name='ra', minimum=0, maximum=2 * np.pi, boundary='periodic')
+theta_jn = Sine(name='theta_jn')
+psi = Uniform(name='psi', minimum=0, maximum=np.pi, boundary='periodic')
+phase = Uniform(name='phase', minimum=0, maximum=2 * np.pi, boundary='periodic')
+a_1 = Uniform(name='a_1', minimum=0, maximum=0.99)
+a_2 = Uniform(name='a_2', minimum=0, maximum=0.99)
+tilt_1 = Sine(name='tilt_1')
+tilt_2 = Sine(name='tilt_2')
+phi_12 = Uniform(name='phi_12', minimum=0, maximum=2 * np.pi, boundary='periodic')
+phi_jl = Uniform(name='phi_jl', minimum=0, maximum=2 * np.pi, boundary='periodic')
+domega220 = Uniform(minimum=-0.8, maximum=2.0, name='domega220', latex_label='$d\\omega_{220}$', unit=None, boundary=None)
+dtau220   = Uniform(minimum=-0.8, maximum=2.0, name='dtau220', latex_label='$d\\tau_{220}$', unit=None, boundary=None)
+domega210 = 0.0
+dtau210   = 0.0
+domega330 = 0.0
+dtau330   = 0.0
+domega440 = 0.0
+dtau440   = 0.0
+domega550 = 0.0
+dtau550   = 0.0
+domega320 = 0.0
+dtau320   = 0.0
+domega430 = 0.0
+dtau430   = 0.0
+dA22 = 0.0
+dw22 = 0.0
+dA21 = 0.0
+dw21 = 0.0
+dA33 = 0.0
+dw33 = 0.0
+dA32 = 0.0
+dw32 = 0.0
+dA44 = 0.0
+dw44 = 0.0
+dA43 = 0.0
+dw43 = 0.0
+dA55 = 0.0
+dw55 = 0.0
+dTpeak = 0.0
+da6 = 0.0
+ddSO = 0.0

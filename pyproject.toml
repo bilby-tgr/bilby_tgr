@@ -31,7 +31,9 @@ authors = [
         {name = "Naresh Adhikari"},
         {name = "Anuradha Gupta"},
         {name = "Ish Gupta"},
-        {name = "Aditya Vijaykumar"}
+        {name = "Aditya Vijaykumar"},
+        {name = "Raffi Enficiaud"},
+        {name = "Lorenzo Pompili"}
         ]
 maintainers = [
         {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
