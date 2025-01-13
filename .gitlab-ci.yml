@@ -30,13 +30,13 @@ stages:
     - python -c "import bilby_tgr"
 
 # test basic setup on python3
-basic-3.8:
+basic-3.12:
   <<: *test-python
-  image: python:3.8 #possibly switch twose to bilby containers
+  image: python:3.12 #possibly switch twose to bilby containers
 
-basic-3.9:
+basic-3.11:
   <<: *test-python
-  image: python:3.9
+  image: python:3.11
 
 basic-3.10:
   <<: *test-python
@@ -54,19 +54,19 @@ basic-3.10:
     # Run precommits (flake8, spellcheck, isort, no merge conflicts, etc)
     - pre-commit run --all-files --verbose --show-diff-on-failure
 
-precommits-py3.8:
+precommits-py3.12:
   <<: *precommits
-  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python38
+  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python312
   variables:
-    CACHE_DIR: ".pip38"
-    PYVERSION: "python38"
+    CACHE_DIR: ".pip312"
+    PYVERSION: "python312"
 
-precommits-py3.9:
+precommits-py3.11:
   <<: *precommits
-  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python39
+  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python311
   variables:
-    CACHE_DIR: ".pip39"
-    PYVERSION: "python39"
+    CACHE_DIR: ".pip311"
+    PYVERSION: "python311"
 
 precommits-py3.10:
   <<: *precommits
