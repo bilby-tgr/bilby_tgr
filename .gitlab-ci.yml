@@ -30,10 +30,6 @@ stages:
     - python -c "import bilby_tgr"
 
 # test basic setup on python3
-basic-3.12:
-  <<: *test-python
-  image: python:3.12 #possibly switch twose to bilby containers
-
 basic-3.11:
   <<: *test-python
   image: python:3.11
@@ -54,23 +50,16 @@ basic-3.10:
     # Run precommits (flake8, spellcheck, isort, no merge conflicts, etc)
     - pre-commit run --all-files --verbose --show-diff-on-failure
 
-precommits-py3.12:
-  <<: *precommits
-  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python312
-  variables:
-    CACHE_DIR: ".pip312"
-    PYVERSION: "python312"
-
 precommits-py3.11:
   <<: *precommits
-  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python311
+  image: containers.ligo.org/lscsoft/bilby_pipe/v3-bilby_pipe-python311
   variables:
     CACHE_DIR: ".pip311"
     PYVERSION: "python311"
 
 precommits-py3.10:
   <<: *precommits
-  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python310
+  image: containers.ligo.org/lscsoft/bilby_pipe/v3-bilby_pipe-python310
   variables:
     CACHE_DIR: ".pip310"
     PYVERSION: "python310"
@@ -78,11 +67,11 @@ precommits-py3.10:
 
 
 
-# test example on python 3.10
-python-3.10:
+# test example on python 3.11
+python-3.11:
   stage: test
-  image: containers.ligo.org/lscsoft/bilby/v2-bilby-python310
-  needs: ["basic-3.10", "precommits-py3.10"]
+  image: containers.ligo.org/lscsoft/bilby_pipe/v3-bilby_pipe-python311
+  needs: ["basic-3.11", "precommits-py3.11"]
   script:
     - python -m pip install .[all]
     - *list-env
@@ -104,7 +93,7 @@ python-3.10:
 
 pages:
   stage: deploy
-  needs: [python-3.10]
+  needs: [python-3.11]
   script:
     - mkdir public/
     - mv htmlcov/ public/
