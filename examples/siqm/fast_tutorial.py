@@ -28,7 +28,6 @@ injection_parameters = dict(
     dQuadMon1=20,
     dQuadMon2=0,
 )
-injection_parameters
 duration = 4
 sampling_frequency = 2 * 1024
 start_time = injection_parameters["geocent_time"] + 2 - duration
