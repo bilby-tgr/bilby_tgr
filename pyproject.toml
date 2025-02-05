@@ -31,7 +31,9 @@ authors = [
         {name = "Naresh Adhikari"},
         {name = "Anuradha Gupta"},
         {name = "Ish Gupta"},
-        {name = "Aditya Vijaykumar"}
+        {name = "Aditya Vijaykumar"},
+        {name = "Raffi Enficiaud"},
+        {name = "Lorenzo Pompili"}
         ]
 maintainers = [
         {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
@@ -44,7 +46,8 @@ version = "0.2a2"
 dependencies = [
     "bilby",
     "lalsuite>=7.20",
-    "numpy>=1.17"
+    "numpy>=1.17",
+    "scipy==1.14.0",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
