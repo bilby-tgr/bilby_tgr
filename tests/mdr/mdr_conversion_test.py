@@ -7,6 +7,7 @@ import pandas as pd
 import bilby
 import bilby_tgr
 from bilby_tgr.mdr import conversion
+from bilby.gw import conversion as conversion2
 
 
 class TestBasicConversionsConsistency(unittest.TestCase):
@@ -64,6 +65,7 @@ class TestBasicConversions(unittest.TestCase):
         self.lambda_eff = 1.681930332907409e+16
         self.log_lambda_eff = 16.22580800295982
         self.A_eff = 5.43396292703101e-21
+        self.mass_graviton = 1e-10
         self.sign_A = +1.
 
     def tearDown(self):
@@ -113,6 +115,18 @@ class TestBasicConversions(unittest.TestCase):
         liv_distance = conversion.comoving_distance_to_LIV_distance(self.comoving_distance, self.alpha)
         self.assertTrue(
             abs(self.liv_distance - liv_distance) < 1e-5 * self.liv_distance
+        )
+
+    def test_A_to_mass_graviton(self):
+        mass_graviton = conversion.A_to_mass_graviton(self.A_alpha)
+        self.assertTrue(
+            abs(self.mass_graviton - mass_graviton) < 1e-5 * self.mass_graviton
+        )
+
+    def test_mass_graviton_to_A(self):
+        A_alpha = conversion.mass_graviton_to_A(self.mass_graviton)
+        self.assertTrue(
+            abs(self.A_alpha - A_alpha) < 1e-5 * self.A_alpha
         )
 
     def test_A_to_lambda(self):
@@ -192,6 +206,240 @@ class TestBasicConversions(unittest.TestCase):
         self.assertTrue(
             abs(self.A_alpha - A_alpha) < 1e-5 * self.A_alpha
         )
+
+
+class TestConvertToLALParams(unittest.TestCase):
+    def setUp(self):
+        self.search_keys = []
+        self.parameters = dict()
+        self.component_mass_pars = dict(mass_1=1.4, mass_2=1.4)
+        self.mass_parameters = self.component_mass_pars.copy()
+        self.mass_parameters["mass_ratio"] = conversion2.component_masses_to_mass_ratio(
+            **self.component_mass_pars
+        )
+        self.mass_parameters[
+            "symmetric_mass_ratio"
+        ] = conversion2.component_masses_to_symmetric_mass_ratio(
+            **self.component_mass_pars
+        )
+        self.mass_parameters["chirp_mass"] = conversion2.component_masses_to_chirp_mass(
+            **self.component_mass_pars
+        )
+        self.mass_parameters["total_mass"] = conversion2.component_masses_to_total_mass(
+            **self.component_mass_pars
+        )
+        self.component_tidal_parameters = dict(lambda_1=300, lambda_2=300)
+        self.all_component_pars = self.component_tidal_parameters.copy()
+        self.all_component_pars.update(self.component_mass_pars)
+        self.tidal_parameters = self.component_tidal_parameters.copy()
+        self.tidal_parameters[
+            "lambda_tilde"
+        ] = conversion2.lambda_1_lambda_2_to_lambda_tilde(**self.all_component_pars)
+        self.tidal_parameters[
+            "delta_lambda_tilde"
+        ] = conversion2.lambda_1_lambda_2_to_delta_lambda_tilde(
+            **self.all_component_pars
+        )
+        self.A_eff_parameters = dict(A_eff=1e-20, alpha=0.0)
+        self.mdr_parameters = self.A_eff_parameters.copy()
+        self.mdr_parameters['sign_A'] = 1.0
+        self.mdr_parameters['mass_graviton_eff'] = conversion.A_to_mass_graviton(
+            self.mdr_parameters['A_eff'])
+        self.mdr_parameters['log_lambda_eff'] = np.log10(conversion.A_to_lambda(
+            self.mdr_parameters['A_eff'], self.mdr_parameters['alpha']))
+
+    def tearDown(self):
+        del self.search_keys
+        del self.parameters
+
+    def bbh_convert(self):
+        (
+            self.parameters,
+            self.added_keys,
+        ) = conversion.convert_to_lal_binary_black_hole_parameters(self.parameters)
+
+    def bns_convert(self):
+        (
+            self.parameters,
+            self.added_keys,
+        ) = conversion.convert_to_lal_binary_neutron_star_parameters(self.parameters)
+
+    def test_redshift_to_luminosity_distance(self):
+        self.parameters["redshift"] = 1
+        dl = conversion2.redshift_to_luminosity_distance(self.parameters["redshift"])
+        self.bbh_convert()
+        self.assertEqual(self.parameters["luminosity_distance"], dl)
+
+    def test_comoving_to_luminosity_distance(self):
+        self.parameters["comoving_distance"] = 1
+        dl = conversion2.comoving_distance_to_luminosity_distance(
+            self.parameters["comoving_distance"]
+        )
+        self.bbh_convert()
+        self.assertEqual(self.parameters["luminosity_distance"], dl)
+
+    def test_source_to_lab_frame(self):
+        self.parameters["test_source"] = 1
+        self.parameters["redshift"] = 1
+        lab = self.parameters["test_source"] * (1 + self.parameters["redshift"])
+        self.bbh_convert()
+        self.assertEqual(self.parameters["test"], lab)
+
+    def _conversion_to_component_mass(self, keys):
+        for key in keys:
+            self.parameters[key] = self.mass_parameters[key]
+        self.bbh_convert()
+        self.assertAlmostEqual(
+            max(
+                [
+                    abs(self.parameters[key] - self.component_mass_pars[key])
+                    for key in ["mass_1", "mass_2"]
+                ]
+            ),
+            0,
+        )
+
+    def test_chirp_mass_total_mass(self):
+        self._conversion_to_component_mass(["chirp_mass", "total_mass"])
+
+    def test_chirp_mass_sym_mass_ratio(self):
+        self._conversion_to_component_mass(["chirp_mass", "symmetric_mass_ratio"])
+
+    def test_chirp_mass_mass_ratio(self):
+        self._conversion_to_component_mass(["chirp_mass", "mass_ratio"])
+
+    def test_total_mass_sym_mass_ratio(self):
+        self._conversion_to_component_mass(["total_mass", "symmetric_mass_ratio"])
+
+    def test_total_mass_mass_ratio(self):
+        self._conversion_to_component_mass(["total_mass", "mass_ratio"])
+
+    def test_total_mass_mass_1(self):
+        self._conversion_to_component_mass(["total_mass", "mass_1"])
+
+    def test_total_mass_mass_2(self):
+        self._conversion_to_component_mass(["total_mass", "mass_2"])
+
+    def test_sym_mass_ratio_mass_1(self):
+        self._conversion_to_component_mass(["symmetric_mass_ratio", "mass_1"])
+
+    def test_sym_mass_ratio_mass_2(self):
+        self._conversion_to_component_mass(["symmetric_mass_ratio", "mass_2"])
+
+    def test_mass_ratio_mass_1(self):
+        self._conversion_to_component_mass(["mass_ratio", "mass_1"])
+
+    def test_mass_ratio_mass_2(self):
+        self._conversion_to_component_mass(["mass_ratio", "mass_2"])
+
+    def test_bbh_aligned_spin_to_spherical(self):
+        self.parameters["chi_1"] = -0.5
+        a_1 = abs(self.parameters["chi_1"])
+        tilt_1 = np.arccos(np.sign(self.parameters["chi_1"]))
+        phi_jl = 0.0
+        phi_12 = 0.0
+        self.bbh_convert()
+        self.assertDictEqual(
+            {
+                key: self.parameters[key]
+                for key in ["a_1", "tilt_1", "phi_12", "phi_jl"]
+            },
+            dict(a_1=a_1, tilt_1=tilt_1, phi_jl=phi_jl, phi_12=phi_12),
+        )
+
+    def test_bbh_zero_aligned_spin_to_spherical_with_magnitude(self):
+        """
+        Test the the conversion returns the correct tilt angles when zero
+        aligned spin is passed if the magnitude is also pass.
+
+        If the magnitude is zero this returns tilt = 0.
+        If the magnitude is non-zero this returns tilt = pi.
+        """
+        self.parameters["chi_1"] = 0
+        self.parameters["chi_2"] = 0
+        a_1 = 0
+        self.parameters["a_1"] = a_1
+        a_2 = 1
+        self.parameters["a_2"] = a_2
+        tilt_1 = 0
+        tilt_2 = np.pi / 2
+        phi_jl = 0
+        phi_12 = 0
+        self.bbh_convert()
+        self.assertDictEqual(
+            {
+                key: self.parameters[key]
+                for key in ["a_1", "a_2", "tilt_1", "tilt_2", "phi_12", "phi_jl"]
+            },
+            dict(a_1=a_1, a_2=a_2, tilt_1=tilt_1, tilt_2=tilt_2, phi_jl=phi_jl, phi_12=phi_12),
+        )
+
+    def test_bbh_zero_aligned_spin_to_spherical_without_magnitude(self):
+        """
+        Test the the conversion returns the correct tilt angles when zero
+        aligned spin is passed if the magnitude is also pass.
+
+        If the magnitude is zero this returns tilt = 0.
+        If the magnitude is non-zero this returns tilt = pi.
+        """
+        self.parameters["chi_1"] = 0
+        a_1 = 0
+        tilt_1 = np.pi / 2
+        phi_jl = 0
+        phi_12 = 0
+        self.bbh_convert()
+        self.assertDictEqual(
+            {
+                key: self.parameters[key]
+                for key in ["a_1", "tilt_1", "phi_12", "phi_jl"]
+            },
+            dict(a_1=a_1, tilt_1=tilt_1, phi_jl=phi_jl, phi_12=phi_12),
+        )
+
+    def test_bbh_cos_angle_to_angle_conversion(self):
+        self.parameters["cos_tilt_1"] = 1
+        t1 = np.arccos(self.parameters["cos_tilt_1"])
+        self.bbh_convert()
+        self.assertEqual(self.parameters["tilt_1"], t1)
+
+    def _conversion_to_component_tidal(self, keys):
+        for key in keys:
+            self.parameters[key] = self.tidal_parameters[key]
+        for key in ["mass_1", "mass_2"]:
+            self.parameters[key] = self.mass_parameters[key]
+        self.bns_convert()
+        component_dict = {key: self.parameters[key] for key in ["lambda_1", "lambda_2"]}
+        self.assertDictEqual(component_dict, self.component_tidal_parameters)
+
+    def test_lambda_tilde_delta_lambda_tilde(self):
+        self._conversion_to_component_tidal(["lambda_tilde", "delta_lambda_tilde"])
+
+    def test_lambda_tilde(self):
+        self._conversion_to_component_tidal(["lambda_tilde"])
+
+    def test_lambda_1(self):
+        self._conversion_to_component_tidal(["lambda_1"])
+
+    def _conversion_to_A_eff(self, keys):
+        for key in keys:
+            self.parameters[key] = self.mdr_parameters[key]
+        self.bbh_convert()
+        A_eff_dict = {key: self.parameters[key] for key in ["A_eff", "alpha"]}
+        self.assertAlmostEqual(
+            max(
+                [
+                    abs(A_eff_dict[key] - self.A_eff_parameters[key])
+                    for key in ["A_eff"]
+                ]
+            ),
+            0,
+        )
+
+    def test_mass_graviton_eff(self):
+        self._conversion_to_A_eff(["mass_graviton_eff", "alpha"])
+
+    def test_log_lambda_eff(self):
+        self._conversion_to_A_eff(["log_lambda_eff", "alpha", "sign_A"])
 
 
 class TestGenerateAllParameters(unittest.TestCase):
