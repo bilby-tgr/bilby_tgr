@@ -76,3 +76,15 @@ packages = ["bilby_tgr",
 
 [tool.setuptools_scm]
 write_to = "bilby_tgr/_version.py"
+
+[project.entry-points.'asimov.pipelines']
+bilbymdr = 'bilby_tgr.mdr.asimov.bilbyMDR:BilbyMDR'
+
+[project.entry-points.'asimov.hooks.postmonitor']
+tgrflow = 'bilby_tgr.asimov.tgrflow:Collector'
+
+[project.entry-points.'asimov.hooks.applicator']
+tgrflow = 'bilby_tgr.asimov.tgrflow:Applicator'
+
+
+

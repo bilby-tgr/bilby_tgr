@@ -1,0 +1,98 @@
+kind: analysis
+name: mdr_graviton_mass
+pipeline: bilbymdr
+comment: MDR for prior flat in graviton mass
+priors:
+  alpha:
+    peak: 0
+  mass_graviton_eff:
+---
+
+kind: analysis
+name: mdr_alpha0_0
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = 0.0
+priors:
+  alpha:
+    peak: 0
+---
+
+kind: analysis
+name: mdr_alpha0_5
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = 0.5
+priors:
+  alpha:
+    peak: 0.5
+---
+
+kind: analysis
+name: mdr_alpha1_5
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = 1.5
+priors:
+  alpha:
+    peak: 1.5
+---
+
+kind: analysis
+name: mdr_alpha2_5
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = 2.5
+priors:
+  alpha:
+    peak: 2.5
+---
+
+kind: analysis
+name: mdr_alpha3_0
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = 3.0
+priors:
+  alpha:
+    peak: 3.0
+---
+
+kind: analysis
+name: mdr_alpha3_5
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = 3.5
+priors:
+  alpha:
+    peak: 3.5
+---
+
+kind: analysis
+name: mdr_alpha4_0
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = 4.0
+priors:
+  alpha:
+    peak: 4.0
+---
+
+kind: analysis
+name: mdr_alpham1_0
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = -1.0
+priors:
+  alpha:
+    peak: -1.0
+---
+
+kind: analysis
+name: mdr_alpham2_0
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = -2.0
+priors:
+  alpha:
+    peak: -2.0
+---
+
+kind: analysis
+name: mdr_alpham3_0
+pipeline: bilbymdr
+comment: MDR for parameter exponent alpha = -3.0
+priors:
+  alpha:
+    peak: -3.0
