@@ -84,6 +84,6 @@ tgrflow = 'bilby_tgr.asimov.tgrflow:Collector'
 
 [project.entry-points.'asimov.hooks.applicator']
 tgrflow = 'bilby_tgr.asimov.tgrflow:Applicator'
-
+mdrflow = 'bilby_tgr.mdr.asimov.mdrflow:Applicator'
 
 

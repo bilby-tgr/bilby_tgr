@@ -139,6 +139,10 @@ def bilby_config_to_asimov(config_name):
                     waveform[name_asimov] = value
     output_dict['waveform'] = waveform
 
+    # copy cosmology
+    if 'cosmology' in config:
+        output_dict['cosmology'] = config['cosmology']
+
     # read prior
     prior = {}
 
@@ -175,8 +179,8 @@ def bilby_config_to_asimov(config_name):
                   'total_mass': 'total mass',
                   'mass_1': 'mass 1',
                   'mass_2': 'mass 2',
-                  'a_1': 'a 1',
-                  'a_2': 'a 2',
+                  'a_1': 'spin 1',
+                  'a_2': 'spin 2',
                   'tilt_1': 'tilt 1',
                   'tilt_2': 'tilt 2',
                   'phi_12': 'phi 12',

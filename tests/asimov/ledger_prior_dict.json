@@ -83,12 +83,12 @@
          "minimum": 1.0,
          "maximum": 1000.0
       },
-      "a 1": {
+      "spin 1": {
          "type": "Uniform",
          "minimum": 0.0,
          "maximum": 0.99
       },
-      "a 2": {
+      "spin 2": {
          "type": "Uniform",
          "minimum": 0.0,
          "maximum": 0.99
