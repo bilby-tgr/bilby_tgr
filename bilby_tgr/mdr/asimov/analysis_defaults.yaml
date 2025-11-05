@@ -2,10 +2,12 @@ kind: configuration
 hooks:
    postmonitor:
      tgrflow:
-       library location: /home/tomasz.baka/asimov_testing/cbc-workflow-o4a
+       library location: /home/tomasz.baka/o4b_mdr_testing/cbc-workflow-o4a-testing
    applicator:
      tgrflow:
-       library location: /home/tomasz.baka/asimov_testing/cbc-workflow-o4a
+       library location: /home/tomasz.baka/o4b_mdr_testing/cbc-workflow-o4a-testing
+     mdrflow:
+       library location: /home/tomasz.baka/o4b_mdr_testing/cbc-workflow-o4a-testing
 data:
   channels:
     H1: H1:GDS-CALIB_STRAIN_CLEAN
@@ -34,17 +36,30 @@ pipelines:
         V1: V1:Hrec_hoft_16384Hz
     sampler:
       sampler: dynesty
-      parallel jobs: 3
+      parallel jobs: 2
+      sampler kwargs:
+        nlive: 1500
+        naccept: 60
+        sample: acceptance-walk
+        check_point_plot: True
+        maxmcmc: 100000
+        check_point_delta_t: 1800
+        print_method: interval-60
     scheduler:
+      periodic restart time: 7200
       accounting group: ligo.prod.o4.cbc.testgr.tiger
       request cpus: 16
       request disk: 8
+      osg: True
+      conda env: /opt/conda/envs/python310
+      container: /cvmfs/singularity.opensciencegrid.org/tomasz.baka/tgr-docker-image/bilby_tgr:latest
     likelihood:
       frequency domain source model: bilby_tgr.mdr.source.lal_binary_black_hole
       marginalization:
           distance: False
+    cosmology: Planck15_LAL
     waveform:
-      approximant: IMRPhenomXPHM
+      approximant: IMRPhenomXPNR
       generation function: bilby_tgr.mdr.conversion.generate_all_bbh_parameters
   bayeswave:
     quality:

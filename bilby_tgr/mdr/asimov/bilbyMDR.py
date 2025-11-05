@@ -3,6 +3,7 @@
 import os
 import re
 import subprocess
+from pathlib import Path
 
 import time
 
@@ -14,6 +15,7 @@ from asimov.pipeline import PostPipeline
 from asimov import utils
 
 import htcondor
+from htcondor import dags
 
 
 class BilbyMDR(Bilby):
@@ -229,9 +231,9 @@ class PESummaryPipeline(PostPipeline):
 
     name = "PESummary"
 
-    def submit_dag(self, dryrun=False):
+    def make_submit(self, dryrun=False, append_gr=False):
         """
-        Run PESummary on the results of this job.
+        Create PEsummary submit file
         """
 
         psds = {ifo: os.path.abspath(psd) for ifo, psd in self.production.psds.items()}
@@ -250,36 +252,39 @@ class PESummaryPipeline(PostPipeline):
             self.production.name, self.category
         )[0]
 
-        # if gr result present, use it to make comparison pages (turned off for now)
-        # compare_with_gr = self.production.meta['gr pe info']['available']
-        compare_with_gr = False
-
-        if compare_with_gr:
-            labels = " ".join([self.production.name, 'gr'])
-            samples = " ".join([self.production.pipeline.samples(absolute=True)[0],
-                                self.production.meta['gr pe info']['result file path']])
-            configs = " ".join([
-                os.path.join(
-                    self.production.event.repository.directory, self.category, configfile),
-                self.production.meta['gr pe info']['config file path']])
-            approximants = " ".join([self.production.meta["waveform"]["approximant"],
-                                    self.production.meta['gr pe info']["approximant"]])
+        webdir = os.path.join(
+            config.get("project", "root"),
+            config.get("general", "webroot"),
+            self.production.event.name,
+            self.production.name,
+            "pesummary",
+        )
+        if append_gr:
+            labels = 'gr'
+            samples = self.production.meta['gr pe info']['result file path']
+            configs = self.production.meta['gr pe info']['config file path']
+            approximants = self.production.meta['gr pe info']["approximant"]
+            additional_commands = ""
+            dir_command = f'--webdir {webdir}'
+            name_format = 'pesummary_gr'
         else:
             labels = self.production.name
             samples = self.production.pipeline.samples(absolute=True)[0]
             configs = os.path.join(
                 self.production.event.repository.directory, self.category, configfile)
             approximants = self.production.meta["waveform"]["approximant"]
+            additional_commands = ["--add_to_existing"]
+            additional_commands += ["--add_to_corner"]
+            if 'mass_graviton_eff' in self.production.meta['priors']:
+                additional_commands += ["mass_graviton"]
+            else:
+                additional_commands += ['A_alpha']
+            additional_commands = ' '.join(additional_commands)
+            dir_command = f'--existing_webdir {webdir}'
+            name_format = 'pesummary'
 
         command = [
-            "--webdir",
-            os.path.join(
-                config.get("project", "root"),
-                config.get("general", "webroot"),
-                self.production.event.name,
-                self.production.name,
-                "pesummary",
-            ),
+            dir_command,
             "--labels",
             labels,
             "--gw",
@@ -342,15 +347,10 @@ class PESummaryPipeline(PostPipeline):
         for key, value in psds.items():
             command += [f"{key}:{value}"]
 
-        # adding mdr parameter to corner plot
-        command += ["--add_to_corner"]
-        if 'mass_graviton_eff' in self.production.meta['priors']:
-            command += ["mass_graviton"]
-        else:
-            command += ['A_alpha']
+        command += [additional_commands]
 
         with utils.set_directory(self.production.rundir):
-            with open(f"{self.production.name}_pesummary.sh", "w") as bash_file:
+            with open(f"{self.production.name}_{name_format}.sh", "w") as bash_file:
                 bash_file.write(
                     f"{config.get('pesummary', 'executable')} " + " ".join(command)
                 )
@@ -367,13 +367,13 @@ class PESummaryPipeline(PostPipeline):
         submit_description = {
             "executable": config.get("pesummary", "executable"),
             "arguments": " ".join(command),
-            "output": f"{self.production.rundir}/pesummary.out",
-            "error": f"{self.production.rundir}/pesummary.err",
-            "log": f"{self.production.rundir}/pesummary.log",
+            "output": f"{self.production.rundir}/submit/{name_format}.out",
+            "error": f"{self.production.rundir}/submit/{name_format}.err",
+            "log": f"{self.production.rundir}/submit/{name_format}.log",
             "request_cpus": self.meta["multiprocess"],
             "environment": "HDF5_USE_FILE_LOCKING=FAlSE OMP_NUM_THREADS=1 OMP_PROC_BIND=false",
             "getenv": "CONDA_EXE,USER,LAL*,PATH",
-            "batch_name": f"PESummary/{self.production.event.name}/{self.production.name}",
+            "batch_name": f"{name_format}/{self.production.event.name}/{self.production.name}",
             "request_memory": "8192MB",
             # "should_transfer_files": "YES",
             "request_disk": "8192MB",
@@ -395,13 +395,40 @@ class PESummaryPipeline(PostPipeline):
             print("SUBMIT DESCRIPTION")
             print("------------------")
             print(submit_description)
+            return None
 
         if not dryrun:
             hostname_job = htcondor.Submit(submit_description)
 
-            with utils.set_directory(self.production.rundir):
-                with open("pesummary.sub", "w") as subfile:
-                    subfile.write(hostname_job.__str__())
+            file_path = os.path.join(self.production.rundir, 'submit', f"{name_format}.sub")
+            with open(file_path, "w") as subfile:
+                subfile.write(hostname_job.__str__() + 'QUEUE')
+            return Path(file_path)
+
+    def submit_dag(self, dryrun=False):
+        """
+        Run PESummary on the results of this job.
+        """
+        path_mdr = self.make_submit(dryrun=dryrun, append_gr=False)
+        path_gr = self.make_submit(dryrun=dryrun, append_gr=True)
+        dag_path = os.path.join(self.production.rundir, 'submit')
+
+        if not dryrun:
+            dag = dags.DAG()
+            gr_layer = dag.layer(
+                name='gr',
+                submit_description=path_gr,
+            )
+            _ = gr_layer.child_layer(
+                name='mdr',
+                submit_description=path_mdr,
+            )
+
+            dag_file = dags.write_dag(dag, dag_path,
+                                      dag_file_name='dag_pesummary.submit')
+            with open(dag_file, 'a') as f:
+                f.writelines('ENV GET LAL_DATA_PATH')  # so NRSur runs can generate pages
+            hostname_job = htcondor.Submit.from_dag(str(dag_file), {'force': 1})
 
             try:
                 # There should really be a specified submit node, and if there is, use it.
