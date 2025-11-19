@@ -28,21 +28,24 @@ two parameters: :code:`f_window_div_f_peak`, the frequency at which is the taper
 frequency of the 22-mode, and :code:`NumCycles`, the number of inspiral cycles over which the tapering happens.
 
 The FTI test is implemented for non-precessing frequency domain waveforms. More precisely, the following approximants 
-are supported for BBH: :code:`SEOBNRv4HM_ROM`, :code:`SEOBNRv4_ROM`, :code:`SEOBNRv5_ROM`, and :code:`IMRPhenomXAS`. 
-For :code:`SEOBNRv4HM_ROM`, it is possible to specify how many modes are used in the waveform using the waveform argument :code:`n_modes` (default is 4). 
-This takes the first :code:`n_modes` in the list of modes :code:`[[2, 2], [3, 3], [2, 1], [4, 4], [5, 5]]`. 
+are supported for BBH: :code:`SEOBNRv4HM_ROM`, :code:`SEOBNRv5HM_ROM`, :code:`SEOBNRv4_ROM`, :code:`SEOBNRv5_ROM`, and :code:`IMRPhenomXAS`. 
+For :code:`SEOBNRv4HM_ROM` and :code:`SEOBNRv5HM_ROM`, it is possible to specify how many modes are used in the waveform using 
+the waveform argument :code:`n_modes` (default is 4). This takes the first :code:`n_modes` in the list of modes 
+:code:`[[2, 2], [3, 3], [2, 1], [4, 4], [5, 5], [3, 2], [4, 3]]`. Note that the last two modes are only available for :code:`SEOBNRv5HM_ROM`.
 For BNS and NSBH the following approximants are supported: 
-:code:`SEOBNRv4_ROM_NRTidalv2`, :code:`SEOBNRv4T_surrogate`, :code:`IMRPhenomXAS_NRTidalv2`, and :code:`SEOBNRv4_ROM_NRTidalv2_NSBH`.
+:code:`SEOBNRv4_ROM_NRTidalv2`, :code:`SEOBNRv5_ROM_NRTidalv3`, :code:`SEOBNRv4T_surrogate`, 
+:code:`IMRPhenomXAS_NRTidalv2`, :code:`IMRPhenomXAS_NRTidalv3`, and :code:`SEOBNRv4_ROM_NRTidalv2_NSBH`.
 
 Note that for the ROM waveforms additional ROM files are needed and the environment variable :code:`LAL_DATA_PATH` 
-needs to be set to point to their location. The ROM files can be downloaded from the :code:`lalsuite-extra` package 
-`here <https://git.ligo.org/lscsoft/lalsuite-extra/-/tree/master/data/lalsimulation>`_. They are also available on OSG clusters through cvmfs.
+needs to be set to point to their location. The ROM files can be downloaded from the :code:`lalsuite-waveform-data` git repository 
+`here <https://git.ligo.org/waveforms/software/lalsuite-waveform-data>`_. They are also available on OSG clusters through osdf/cvmfs.
 To use this, one has to set the :code:`LAL_DATA_PATH` environment variable before submitting a job:
 
 .. code-block:: console
    
-   $ export LAL_DATA_PATH=/cvmfs/singularity.opensciencegrid.org/.images/4f/8299f8f688d0175846129a95b353b07c452dd708a4c5fb8427a5f867610196/opt/lal_data:/cvmfs/singularity.opensciencegrid.org/.images/4c/6d00a32836cc022a244b3683316670784eecb59993be1c6a3f6a74f6f86a3f/opt/lal_data
+   $ export LAL_DATA_PATH=/cvmfs/shared.storage.igwn.org/igwn/shared/auxiliary/obs_sci/cbc/waveform/lalsimulation_data
 
+Note that this location requires LVK authentication to access.
 
 Usage
 -----
