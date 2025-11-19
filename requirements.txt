@@ -1,3 +1,3 @@
 bilby
-lalsuite>=7.20
+lalsuite>=7.25
 numpy>=1.17

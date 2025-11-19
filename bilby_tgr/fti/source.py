@@ -283,10 +283,65 @@ def lal_binary_black_hole(
         else:
             raise Exception("The number of modes used with SEOBNRv4HM_ROM cannot be n_modes = {}.".format(nmodes))
 
+    elif approximant == 'SEOBNRv5HM_ROM':
+
+        if nmodes == 1:
+            approx = ls.GetApproximantFromString('SEOBNRv5_ROM')
+
+            try:
+                hpf, hcf = ls.SimInspiralChooseFDWaveform(
+                    m1_SI, m2_SI, 0, 0, S1z, 0, 0, S2z, dL, iota, phase, 0, 0, 0,
+                    deltaF, fMin, fMax, fRef, None, approx)
+            except Exception as e:
+                if waveform_kwargs["catch_waveform_errors"]:
+                    return None
+                else:
+                    raise Exception(e)
+
+            ls.SimInspiralTestingGRCorrections(
+                hpf, 2, 2, m1_SI, m2_SI, S1z, S2z, fMin, fRef, f_window_div_f_peak, NumCycles, nongrParams)
+            ls.SimInspiralTestingGRCorrections(
+                hcf, 2, 2, m1_SI, m2_SI, S1z, S2z, fMin, fRef, f_window_div_f_peak, NumCycles, nongrParams)
+
+            h_plus = hpf.data.data
+            h_cross = hcf.data.data
+
+        elif nmodes in [2, 3, 4, 5, 6, 7]:
+
+            try:
+                hlm_LAL = ls.SimIMRSEOBNRv5HMROM_Modes(
+                    phase, deltaF, fMin, fMax, fRef, dL, m1_SI, m2_SI, S1z, S2z, -1, nmodes, True, None, ls.NoNRT_V)
+            except Exception as e:
+                if waveform_kwargs["catch_waveform_errors"]:
+                    return None
+                else:
+                    raise Exception(e)
+
+            h_plus = None
+            h_cross = None
+
+            modes = [[2, 2], [3, 3], [2, 1], [4, 4], [5, 5], [3, 2], [4, 3]][:nmodes]
+            for L, M in modes:
+                h = ls.SphHarmFrequencySeriesGetMode(hlm_LAL, L, -M)
+
+                ls.SimInspiralTestingGRCorrections(
+                    h, L, M, m1_SI, m2_SI, S1z, S2z, fMin, fRef, f_window_div_f_peak, NumCycles, nongrParams)
+                hp_corr_data, hc_corr_data = AddmodesFD(h, L, -M, iota, phase)
+
+                if h_plus is None:
+                    h_plus = hp_corr_data
+                    h_cross = hc_corr_data
+                else:
+                    h_plus += hp_corr_data
+                    h_cross += hc_corr_data
+
+        else:
+            raise Exception("The number of modes used with SEOBNRv5HM_ROM cannot be n_modes = {}.".format(nmodes))
+
     else:
         raise Exception("Waveform approximant {} is not supported. \
                         Use SEOBNRv4_ROM, SEOBNRv5_ROM, IMRPhenomXAS, \
-                        or SEOBNRv4HM_ROM instead.".format(approximant))
+                        SEOBNRv4HM_ROM, or SEOBNRv5HM_ROM instead.".format(approximant))
 
     return dict(plus=h_plus, cross=h_cross)
 
@@ -431,8 +486,8 @@ def lal_binary_neutron_star(
 
     dL = luminosity_distance * 1.0e6 * ls.lal.PC_SI
 
-    if approximant in ['SEOBNRv4_ROM_NRTidalv2_NSBH', 'SEOBNRv4_ROM_NRTidalv2',
-                       'SEOBNRv4T_surrogate', 'IMRPhenomXAS_NRTidalv2']:
+    if approximant in ['SEOBNRv4_ROM_NRTidalv2_NSBH', 'SEOBNRv4_ROM_NRTidalv2', 'SEOBNRv5_ROM_NRTidalv3',
+                       'SEOBNRv4T_surrogate', 'IMRPhenomXAS_NRTidalv2', 'IMRPhenomXAS_NRTidalv3']:
         approx = ls.GetApproximantFromString(approximant)
 
         try:
@@ -454,7 +509,8 @@ def lal_binary_neutron_star(
 
     else:
         raise Exception("Waveform approximant {} is not supported. \
-                        Use SEOBNRv4_ROM_NRTidalv2_NSBH, SEOBNRv4_ROM_NRTidalv2, 'IMRPhenomXAS_NRTidalv2', \
+                        Use SEOBNRv4_ROM_NRTidalv2_NSBH, SEOBNRv4_ROM_NRTidalv2, SEOBNRv5_ROM_NRTidalv3, \
+                        IMRPhenomXAS_NRTidalv2, IMRPhenomXAS_NRTidalv3, \
                         or SEOBNRv4T_surrogate instead.".format(approximant))
 
     return dict(plus=h_plus, cross=h_cross)
