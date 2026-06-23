@@ -95,6 +95,9 @@ python-3.11:
   stage: test
   image: containers.ligo.org/lscsoft/bilby_pipe/v3-bilby_pipe-python311
   needs: ["basic-3.11", "precommits-py3.11"]
+  before_script:
+    # Workaround for https://git.ligo.org/lscsoft/lalsuite/-/work_items/300
+    - export LD_PRELOAD="$(dirname $(which python))/../lib/libfftw3.so:$(dirname $(which python))/../lib/libfftw3f.so"
   script:
     - python -m pip install bilby_pipe cbcflow asimov
     - python -m pip install .[all]
