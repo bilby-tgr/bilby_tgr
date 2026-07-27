@@ -33,10 +33,13 @@ authors = [
         {name = "Ish Gupta"},
         {name = "Aditya Vijaykumar"},
         {name = "Raffi Enficiaud"},
-        {name = "Lorenzo Pompili"}
+        {name = "Lorenzo Pompili"},
+        {name = "Avinash Tiwari"},
+        {name = "Shasvath Kapadia"}
         ]
 maintainers = [
         {name = "Michalis Agathos", email = "michalis.agathos@ligo.org"},
+        {name = "Elise Sänger", email = "elise.sanger@ligo.org"},
         {name = "Aditya Vijaykumar"},
         ]
 readme = "README.rst"
