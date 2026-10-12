@@ -52,7 +52,7 @@ maintainers = [
 readme = "README.rst"
 requires-python = ">=3.8"
 license = { text = "MIT" }
-version = "0.2"
+version = "0.3"
 dependencies = [
     "bilby",
     "lalsuite>=7.25",
@@ -75,8 +75,10 @@ automation = ["cbcflow>=0.2.2", "asimov>=0.5.0b11"]
 
 [tool.setuptools]
 packages = ["bilby_tgr",
+            "bilby_tgr.asimov",
             "bilby_tgr.fti",
-            "bilby_tgr.mdr",
+            "bilby_tgr.losa",
+            "bilby_tgr.mdr", "bilby_tgr.mdr.asimov",
             "bilby_tgr.pseob",
             "bilby_tgr.siqm",
             "bilby_tgr.ssb",
