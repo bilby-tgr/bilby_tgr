@@ -1,49 +1,106 @@
 {
     "creators": [
         {
-            "name": "Ashton, Gregory"
-        },
-        {
-            "name": "Talbot, Colm"
-        },
-        {
-            "name": "Roy, Soumen"
-        },
-        {
-            "name": "Pratten, Geraint"
-        },
-        {
-            "name": "Pang, Tsun-Ho"
-        },
-        {
             "name": "Agathos, Michalis"
+        },
+        {
+            "name": "Ashton, Gregory"
         },
         {
             "name": "Baka, Tomasz"
         },
         {
+            "name": "Pratten, Geraint"
+        },
+        {
             "name": "Sänger, Elise"
         },
         {
-            "name": "Mehta, Ajit"
-        },
-        {
-            "name": "Steinhoff, Jan"
-        },
-        {
-            "name": "Maggio, Elisa"
-        },
-        {
-            "name": "Ghosh, Abhirup"
+            "name": "Talbot, Colm"
         },
         {
             "name": "Vijaykumar, Aditya"
         },
         {
+            "name": "Cirok, Balazs"
+        },
+        {
             "name": "Enficiaud, Raffi"
         },
         {
+            "name": "Ghosh, Abhirup"
+        },
+        {
+            "name": "Haris, K"
+        },
+        {
+            "name": "Kapadia, Shasvath"
+        },
+        {
+            "name": "Krishnendu, N V"
+        },
+        {
+            "name": "Maggio, Elisa"
+        },
+        {
+            "name": "Mehta, Ajit"
+        },
+        {
+            "name": "Pang, Tsun-Ho"
+        },
+        {
             "name": "Pompili, Lorenzo"
+        },
+        {
+            "name": "Roy, Soumen"
+        },
+        {
+            "name": "Steinhoff, Jan"
+        },
+        {
+            "name": "Tiwari, Avinash"
+        },
+        {
+            "name": "Adhikari, Naresh"
+        },
+        {
+            "name": "Babak, Stanislav"
+        },
+        {
+            "name": "Carullo, Gregorio"
+        },
+        {
+            "name": "Ghosh, Shrobana"
+        },
+        {
+            "name": "Gupta, Anuradha"
+        },
+        {
+            "name": "Gupta, Ish"
+        },
+        {
+            "name": "Haegel, Leila"
+        },
+        {
+            "name": "Haney, Maria"
+        },
+        {
+            "name": "Laghi, Danny"
+        },
+        {
+            "name": "Leong, Samson"
+        },
+        {
+            "name": "Nielsen, Alex"
+        },
+        {
+            "name": "Sharma, Abhisek"
+        },
+        {
+            "name": "Vallejo-P, Sergio"
+        },
+        {
+            "name": "Wright, Mick"
         }
     ],
     "title": "Bilby TGR"
